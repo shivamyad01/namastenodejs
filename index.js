@@ -38,6 +38,39 @@ app.get("/getdata",async (req,res)=>{
        
 })
 
+
+
+
+  app.patch("/updateUser",async (req,res)=>{
+    const {userId,firstName}=req.body
+   
+    
+    try {
+        await User.findByIdAndUpdate(userId,{firstName});
+
+       res.send("user updated successfully")
+      } catch (err) {
+        console.log(err)
+      }
+ 
+})
+
+
+
+app.delete("/deleteUser",async (req,res)=>{
+          const userId=req.body.userId
+    try {
+        
+       const user= await User.findByIdAndDelete(userId);
+           res.send("user deleted successfuly")
+        
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+   
+       
+})
+
 connectDB().then(()=>{
     console.log("db is connected");
     app.listen(3000,()=>{
